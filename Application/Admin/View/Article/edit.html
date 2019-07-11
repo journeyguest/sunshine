@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>个人后台管理</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css"/>
+    <script type="text/javascript" src="__PUBLIC__/js/libs/modernizr.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>		<!--引入外部编辑器文件-->
+	<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.min.js"></script>	<!--引入外部编辑器文件-->
+	<script type="text/javascript" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>	<!--引入外部编辑器文件-->
+
+   
+    
+</head>
+<body>
+<include file="Public/head" /><!--包含菜单模版menu-->
+<div class="container clearfix">
+	<include file="Public/left" /><!--包含菜单模版menu-->
+    <!--/sidebar-->
+    <div class="main-wrap">
+
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="/jscss/admin/design/">首页</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="__MODULE__/Article/lst">文章管理</a><span class="crumb-step">&gt;</span><span>修改文章</span></div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-content">
+                <form action="" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                	<!--enctype="multipart/form-data"解决上传文件传值问题，所有的值 都是以二进制进行传递的-->
+                    <table class="insert-tab" width="100%">
+                            <tr>
+                                <th><i class="require-red">*</i>文章标题：</th>
+                                <td>
+                                    <input class="common-text required" id="title" name="title" size="50" value="{$articleer.title}" type="text">
+                                </td>
+                            </tr>
+                             <tr>
+                                <th><i class="require-red">*</i>文章描述：</th>
+                                <td>
+                                    <textarea style="width:420px;height: 100px;"name="desc" value="">{$articleer.desc}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>图片：</th>
+                                <td>
+                                    <input id="pic" name="pic" size="50" value="" type="file">
+                                    	<!--if标签属于tp框架内置框架，判断有图就显示，无图就显示无图片文字-->
+									<if condition="$articleer['pic'] neq null">
+										<img src="__ROOT__{$articleer.pic}" height="50">		<!--__ROOT__:根目录-->
+										<else/>
+										无图片
+									</if>	
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>文章类型：</th>
+                                <td>
+                                   <select name="cateid">
+                                   	<option>选择分类</option>
+                                   	<volist name="cateres" id="vo">
+                                   	<option <if condition="$vo['id'] eq $articleer[cateid]">selected="selected"</if> value="{$vo.id}">{$vo.catename}</option>
+                                   			<!--为了显示原来的标题的-->
+                                   	</volist>
+                                   </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>文章内容：</th>
+                                <td>
+                                    <textarea name="content" id="content">{$articleer.content}</textarea><!--引入外部编辑器-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
+                                    <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!--/main-->
+</div>
+
+<script type="text/javascript">
+	//实例化编辑器
+	//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	UE.getEditor('content',{initialFrameWidth:1000,initialFrameHeight:200,});
+</script>
+</body>
+</html>
